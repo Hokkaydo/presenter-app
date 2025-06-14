@@ -1,5 +1,6 @@
 package be.hokkaydo.presenter.ui // Or your UI package
 
+import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Context
@@ -9,6 +10,7 @@ import android.provider.Settings
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -27,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import be.hokkaydo.presenter.BLEManager
 import com.google.accompanist.permissions.*
 
+@RequiresPermission(allOf = [Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT])
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class) // For Accompanist Permissions
 @Composable
 fun MainScreen(
@@ -277,6 +280,7 @@ fun PrerequisiteItem(
     }
 }
 
+@RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
 @Composable
 fun DeviceList(devices: List<BluetoothDeviceWrapper>, onDeviceClick: (BluetoothDeviceWrapper) -> Unit) {
     val scrollableState = rememberScrollState(0)
@@ -300,6 +304,7 @@ fun DeviceList(devices: List<BluetoothDeviceWrapper>, onDeviceClick: (BluetoothD
     }
 }
 
+@RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
 @Composable
 fun DeviceRow(deviceWrapper: BluetoothDeviceWrapper, onClick: () -> Unit) {
     Row(
